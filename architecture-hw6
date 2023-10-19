@@ -1,0 +1,72 @@
+Schedule {
+	id integer pk increments
+	idPatient integer
+	appointment datetime
+	idDoctor integer
+	idRoom integer
+}
+
+patientAppointments {
+	id integer pk increments
+	idDoctor integer > Doctors.id
+	idPatient integer > Patient.id
+	description varchar
+}
+
+Rooms {
+	id integer pk increments > Schedule.idRoom
+	cabinetNumber integer
+}
+
+MedicalTests {
+	id integer pk increments
+	date datetime
+	idPatient integer > Patient.id
+	idDoctor integer > Doctors.id
+	idType integer
+	idPatientCharts integer > PatientCharts.id
+}
+
+staffPhoneNumbers {
+	id integer pk increments
+	phoneNumber integer
+	idDoctor integer > Doctors.id
+}
+
+Doctors {
+	id integer pk increments > Schedule.idDoctor
+	firstName varchar
+	lastName varchar
+	idSpeciality integer
+}
+
+Speciality {
+	id integer pk increments > Doctors.idSpeciality
+	speciality varchar
+}
+
+typeMedicalTests {
+	id integer pk increments > MedicalTests.idType
+	title varchar
+	description integer
+	costs decimal
+}
+
+PatientCharts {
+	id integer pk increments
+	idPatient integer > Patient.id
+	PatientChart blob
+}
+
+Patient {
+	id integer pk increments > Schedule.idPatient
+	firstName varchar
+	lastName varchar
+	idPhoneNumber integer
+	idPatientChart integer
+}
+
+patientPhoneNumbers {
+	id integer pk increments
+	phoneNumber integer > Patient.idPhoneNumber
+}
